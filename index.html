@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hesabım</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="sekmeler">
+    <button data-sekme="hesap" class="aktif">Hesap</button>
+    <button data-sekme="planlar">Planlar</button>
+    <button data-sekme="gecmis">Geçmiş</button>
+    <button data-sekme="ayar">Ayarlar</button>
+  </nav>
+
+  <main>
+    <!-- HESAP -->
+    <section id="hesap" class="sekme">
+      <div class="ozet">
+        <small>Hesapta şu an</small>
+        <div class="buyuk" id="simdi">0 ₺</div>
+        <div class="satir">
+          <div><small>Planlanan gider</small><b id="planlanan">0 ₺</b></div>
+          <div><small>Hepsi ödenince kalan</small><b id="kalan">0 ₺</b></div>
+        </div>
+        <div class="uyari" id="uyari" hidden></div>
+      </div>
+
+      <div class="izgara">
+        <div class="mini"><small>Bugün</small><b id="bugunGider">0 ₺</b></div>
+        <div class="mini"><small>Bu ay</small><b id="ayGider">0 ₺</b></div>
+        <div class="mini"><small>Günlük ort.</small><b id="gunOrt">0 ₺</b></div>
+      </div>
+
+      <div class="not" id="karsilastirma"></div>
+
+      <div class="kutu" id="gelirKutu">
+        <div class="baslik-satir">
+          <h2 id="gelirBaslik">Gelirim</h2>
+          <button id="gelirDegistir" class="sil">Değiştir</button>
+        </div>
+        <div id="gelirIcerik"></div>
+      </div>
+
+      <div class="kutu">
+        <div class="tur">
+          <button id="turGider" class="aktif">Gider</button>
+          <button id="turGelir">Gelir</button>
+        </div>
+        <div class="form">
+          <input id="hAd" placeholder="Ne için?">
+          <input id="hTutar" type="number" inputmode="decimal" placeholder="Tutar">
+        </div>
+        <div class="form">
+          <select id="hKat"></select>
+          <input id="hTarih" type="date">
+        </div>
+        <button id="hEkle" class="ana">Kaydet</button>
+      </div>
+
+      <div class="kutu">
+        <h2>Son 7 gün</h2>
+        <div class="grafik" id="grafik"></div>
+      </div>
+
+      <div class="kutu">
+        <h2>Kategoriler ve limitler</h2><div class="not" style="margin:-4px 0 10px">Bu ayki harcaman. Limit koymak için kategoriye dokun.</div>
+        <div id="kategoriler"></div>
+      </div>
+
+      <div class="kutu">
+        <div class="baslik-satir"><h2>Birikim hedefi</h2><button id="hedefBtn" class="sil">Hedef koy</button></div>
+        <div id="hedefIcerik"></div>
+        <button id="hedefEkle" class="ana" hidden>Birikime ekle</button>
+      </div>
+
+      <div class="kutu">
+        <label for="baslangic">Başlangıç bakiyesi (₺)</label>
+        <input id="baslangic" type="number" inputmode="decimal" placeholder="Örn. 15000">
+        <div class="not">Hesabında ilk başta ne kadar para varsa onu yaz. Gelir ve giderler bunun üstüne işlenir.</div>
+      </div>
+    </section>
+
+    <!-- PLANLAR -->
+    <section id="planlar" class="sekme" hidden>
+      <div class="kutu">
+        <h2>Yapacağım harcamalar</h2>
+        <div class="form">
+          <input id="pAd" placeholder="Kira, fatura...">
+          <input id="pTutar" type="number" inputmode="decimal" placeholder="Tutar">
+        </div>
+        <button id="pEkle" class="ana">Plana ekle</button>
+        <ul id="planListe"></ul>
+        <div class="not">Ödediğini işaretle: hesaptan düşer ve geçmişe bugünün tarihiyle yazılır.</div>
+      </div>
+
+      <div class="kutu">
+        <h2>Her ay tekrarlayanlar</h2>
+        <div class="form"><input id="tAd" placeholder="Kira, maaş..."><input id="tTutar" type="number" inputmode="decimal" placeholder="Tutar"></div>
+        <div class="form"><select id="tTur"><option value="gider">Gider</option><option value="gelir">Gelir</option></select><input id="tGun" type="number" min="1" max="28" placeholder="Ayın kaçı (1-28)"></div>
+        <button id="tEkle" class="ana">Ekle</button>
+        <ul id="tekrarListe"></ul>
+        <div class="not">Günü gelince geçmişe kendiliğinden işlenir.</div>
+      </div>
+    </section>
+
+    <!-- GEÇMİŞ -->
+    <section id="gecmis" class="sekme" hidden>
+      <input id="ara" placeholder="Ara: market, kira, 2026-11..." style="margin-bottom:10px">
+      <div id="gecmisListe"></div>
+    </section>
+    <section id="ayar" class="sekme" hidden>
+      <div class="kutu">
+        <h2>Yedek</h2>
+        <button id="yedekle" class="ana" style="margin-top:0">Yedeği indir</button>
+        <label class="dosya">Yedekten geri yükle<input id="geriYukle" type="file" accept=".json,application/json" hidden></label>
+        <div class="not">Veriler bu cihazın tarayıcısında durur. Düzenli yedek al.</div>
+      </div>
+      <div class="kutu">
+        <h2>PIN kilidi</h2>
+        <div class="form"><input id="pinGiris" type="password" inputmode="numeric" maxlength="4" placeholder="4 haneli PIN"><button id="pinKaydet">Kaydet</button></div>
+        <button id="pinKaldir" class="sil">PIN'i kaldır</button>
+        <div class="not">Basit bir ekran kilidi, veriyi şifrelemez.</div>
+      </div>
+      <div class="not" id="ayarDurum"></div>
+    </section>
+  </main>
+
+  <div id="kilit" class="modal kilit" hidden><div class="modal-kutu"><h2>Hesabım</h2><input id="kilitGiris" type="password" inputmode="numeric" maxlength="4" placeholder="PIN"></div></div>
+
+  <div id="gelirModal" class="modal" hidden>
+    <div class="modal-kutu">
+      <h2>Ne kadar gelirin var?</h2>
+      <div class="not" style="margin:0 0 10px">Bütçeni ona göre hesaplayayım.</div>
+      <div class="tur">
+        <button id="donemHafta">Haftalık</button>
+        <button id="donemAy" class="aktif">Aylık</button>
+      </div>
+      <input id="gelirTutar" type="number" inputmode="decimal" placeholder="Tutar (₺)" style="margin-top:10px">
+      <button id="gelirKaydet" class="ana">Kaydet</button>
+      <button id="gelirGec" class="sil" style="width:100%;margin-top:6px">Şimdilik geç</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
